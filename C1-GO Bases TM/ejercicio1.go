@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func main2() {
 	nombre := "Gianfranco"
 	email := "gianfranco@gmail.com"
 
