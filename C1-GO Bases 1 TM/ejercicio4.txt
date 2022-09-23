@@ -1,5 +1,0 @@
-  var apellido string = "Gomez"
-  var edad int = "35" -- Se le esta asignando un string a un int
-  boolean := "false"; -- Se le esta asignando un string a un boolean
-  var sueldo string = 45857.90 -- -- Se le esta asignando un float a un string
-  var nombre string = "Julián"
