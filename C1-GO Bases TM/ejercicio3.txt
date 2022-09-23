@@ -1,7 +1,0 @@
-  var 1nombre string -- Está mal porque no puede empezar con un numero
-  var apellido string -- Está bien
-  var int edad -- Esta bien
-  1apellido := 6 -- Está mal porque no puede empezar con un numero
-  var licencia_de_conducir = true -- Esta mal porque no se usa _ sino camelCase
-  var estatura de la persona int -- Esta mal porque no se puede poner espacios
-  cantidadDeHijos := 2
