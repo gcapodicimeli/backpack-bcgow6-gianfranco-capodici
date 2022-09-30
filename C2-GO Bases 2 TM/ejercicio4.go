@@ -1,5 +1,10 @@
 package main
 
+import (
+	"errors"
+	"fmt"
+)
+
 const (
 	minimum = "minimum"
 	average = "average"
@@ -43,10 +48,38 @@ func maxFunc(valores ...int) int {
 	return max
 }
 
-// func operation(operacion string) func(valores ...int) int {
-
-// }
+func operation(op string) (func(valores ...int) int, error) {
+	switch op {
+	case minimum:
+		return minFunc, nil
+	case maximum:
+		return maxFunc, nil
+	case average:
+		return averageFunc, nil
+	default:
+		return nil, errors.New("No existe la operacion " + op)
+	}
+}
 
 func main() {
+	min, err := operation(minimum)
+	if err != nil {
+		panic(err)
+	}
+	average, err := operation(average)
+	if err != nil {
+		panic(err)
+	}
+	max, err := operation(maximum)
+	if err != nil {
+		panic(err)
+	}
 
+	minValue := min(2, 3, 3, 4, 10, 2, 4, 5)
+	averageValue := average(2, 3, 3, 4, 1, 2, 4, 5)
+	maxValue := max(2, 3, 3, 4, 1, 2, 4, 5)
+
+	fmt.Println("minValue:", minValue)
+	fmt.Println("averageValue:", averageValue)
+	fmt.Println("maxValue:", maxValue)
 }
