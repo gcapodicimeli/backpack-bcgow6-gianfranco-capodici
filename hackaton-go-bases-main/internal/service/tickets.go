@@ -23,6 +23,11 @@ type Ticket struct {
 
 // NewBookings creates a new bookings service
 func NewBookings(Tickets []Ticket) Bookings {
+	// res, err := file.Read("./tickets.csv")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println(res)
 	return &bookings{Tickets: Tickets}
 }
 
