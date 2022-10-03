@@ -25,6 +25,17 @@ func (f *File) Read() (lines [][]string, err error) {
 	return
 }
 
-func (f *File) Write(service.Ticket) error {
-	return nil
+func (f *File) Write(tick service.Ticket) (err error) {
+	file, err := os.Open(f.Path)
+	if err != nil || file == nil {
+		return fmt.Errorf("No se pudo abrir el archivo %v", f.Path)
+	}
+	lines, err = csv.NewReader(file).ReadAll()
+	if err != nil {
+		return err
+	}
+	d1 := []byte(fmt.Sprint(tick))
+	os.WriteFile("prueba.txt", d1, 0644)
+
+	return
 }

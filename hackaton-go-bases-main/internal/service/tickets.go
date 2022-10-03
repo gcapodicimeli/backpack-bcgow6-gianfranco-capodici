@@ -1,5 +1,7 @@
 package service
 
+import "fmt"
+
 type Bookings interface {
 	// Create create a new Ticket
 	Create(t Ticket) (Ticket, error)
@@ -30,9 +32,15 @@ func (b *bookings) Create(t Ticket) (Ticket, error) {
 	return Ticket{}, nil
 }
 
-func (b *bookings) Read(id int) (Ticket, error) {
-
-	return Ticket{}, nil
+func (b *bookings) Read(id int) (tick Ticket, err error) {
+	for i, value := range b.Tickets {
+		if value.Id == id {
+			tick = b.Tickets[i]
+			return
+		}
+	}
+	err = fmt.Errorf("Ticket %d not found", id)
+	return
 }
 
 func (b *bookings) Update(id int, t Ticket) (Ticket, error) {

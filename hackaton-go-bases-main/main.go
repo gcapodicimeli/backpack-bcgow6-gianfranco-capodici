@@ -9,6 +9,11 @@ import (
 	"github.com/bootcamp-go/hackaton-go-bases/internal/service"
 )
 
+const (
+	operation = "CREATE"
+	ticketId  = 1
+)
+
 func transformStringToTicket(lines [][]string) (tickets []service.Ticket) {
 	for _, line := range lines {
 		id, err := strconv.Atoi(line[0])
@@ -35,8 +40,8 @@ func transformStringToTicket(lines [][]string) (tickets []service.Ticket) {
 
 func main() {
 	var tickets []service.Ticket
+
 	// Funcion para obtener tickets del archivo csv
-	service.NewBookings(tickets)
 	f := &file.File{Path: "./tickets.csv"}
 	lines, err := f.Read()
 	if err != nil {
@@ -45,5 +50,23 @@ func main() {
 
 	// Funcion para convertir los string obtenidos del archivo en un []tickets
 	tickets = transformStringToTicket(lines)
-	fmt.Println(tickets)
+	serv := service.NewBookings(tickets)
+
+	// * Funciones solicitadas
+	switch operation {
+	case "READ":
+		tick, err := serv.Read(ticketId)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(tick)
+	case "CREATE":
+		f.Write(tickets[1])
+	case "UPDATE":
+
+	case "DELETE":
+
+	default:
+
+	}
 }
