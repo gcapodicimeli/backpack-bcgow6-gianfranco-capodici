@@ -4,13 +4,13 @@
         "name": "Juan",
         "lastName": "Rodriguez",
         "email": "juanR@gmail.com",
-        "age": 24,
+        "age": 26,
         "height": 1.73,
         "activo": true,
         "date": "03-01-2022"
     },
     {
-        "id": 1,
+        "id": 2,
         "name": "Maria",
         "lastName": "Lopez",
         "email": "mariaL@gmail.com",
@@ -24,7 +24,7 @@
         "name": "Jose",
         "lastName": "Perez",
         "email": "joseP@gmail.com",
-        "age": 34,
+        "age": 26,
         "height": 1.65,
         "activo": true,
         "date": "30-01-2022"
