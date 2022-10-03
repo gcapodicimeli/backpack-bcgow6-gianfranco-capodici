@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Juan",
+        "lastName": "Rodriguez",
+        "email": "juanR@gmail.com",
+        "age": 24,
+        "height": 1.73,
+        "activo": true,
+        "date": "03-01-2022"
+    },
+    {
+        "id": 1,
+        "name": "Maria",
+        "lastName": "Lopez",
+        "email": "mariaL@gmail.com",
+        "age": 27,
+        "height": 1.58,
+        "activo": true,
+        "date": "12-01-2022"
+    },
+    {
+        "id": 3,
+        "name": "Jose",
+        "lastName": "Perez",
+        "email": "joseP@gmail.com",
+        "age": 34,
+        "height": 1.65,
+        "activo": true,
+        "date": "30-01-2022"
+    }
+]
