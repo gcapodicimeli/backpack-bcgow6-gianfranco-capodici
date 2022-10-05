@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/internal/users"
 	"github.com/gin-gonic/gin"
@@ -30,7 +31,7 @@ func NewUser(service users.Service) *User {
 
 func (c *User) Create(ctx *gin.Context) {
 	token := ctx.GetHeader("token")
-	if token != "12345" {
+	if token != os.Getenv("TOKEN") {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
 			"error": "no tiene permisos para realizar la petición solicitada",
 		})
@@ -56,7 +57,7 @@ func (c *User) Create(ctx *gin.Context) {
 
 func (c *User) GetAll(ctx *gin.Context) {
 	token := ctx.GetHeader("token")
-	if token != "12345" {
+	if token != os.Getenv("TOKEN") {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
 			"error": "no tiene permisos para realizar la petición solicitada",
 		})
