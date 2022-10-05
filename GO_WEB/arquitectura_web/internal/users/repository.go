@@ -16,7 +16,7 @@ var lastID int
 
 type Repository interface {
 	GetAll() ([]User, error)
-	Create(id int, name, lastName, email string, age int, heigth float64, active bool, date string)
+	Create(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
 	LastID() (int, error)
 }
 
@@ -30,10 +30,10 @@ func (r *repository) GetAll() ([]User, error) {
 	return us, nil
 }
 
-func (r *repository) Create(id int, name, lastName, email string, age int, heigth float64, active bool, date string) {
-	u := User{Name: name, LastName: lastName, Email: email, Age: age, Height: heigth, Active: active, Date: date}
+func (r *repository) Create(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (u User, err error) {
+	u = User{id, name, lastName, email, age, heigth, active, date}
 	us = append(us, u)
-	lastID = id
+	lastID = u.Id
 	return
 }
 
