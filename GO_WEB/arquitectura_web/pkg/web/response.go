@@ -4,8 +4,8 @@ import "strconv"
 
 type Response struct {
 	Code  string      `json:"code"`
-	Data  interface{} `json:"data,omitempty`
-	Error string      `json:"error,omitempty`
+	Data  interface{} `json:"data,omitempty"`
+	Error string      `json:"error,omitempty"`
 }
 
 func NewResponse(code int, data interface{}, err string) Response {
