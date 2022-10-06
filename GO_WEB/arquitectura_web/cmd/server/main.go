@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/cmd/server/handler"
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/internal/users"
+	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/pkg/store"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -13,7 +14,8 @@ func main() {
 		panic(err)
 	}
 
-	repo := users.NewRepository()
+	db := store.New(store.FileType, "./users.json")
+	repo := users.NewRepository(db)
 	service := users.NewService(repo)
 
 	u := handler.NewUser(service)

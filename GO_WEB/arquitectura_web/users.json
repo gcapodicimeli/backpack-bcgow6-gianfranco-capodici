@@ -1,32 +1,62 @@
 [
-    {
-        "id": 1,
-        "name": "Juan",
-        "lastName": "Rodriguez",
-        "email": "juanR@gmail.com",
-        "age": 26,
-        "height": 1.73,
-        "activo": true,
-        "date": "03-01-2022"
-    },
-    {
-        "id": 2,
-        "name": "Maria",
-        "lastName": "Lopez",
-        "email": "mariaL@gmail.com",
-        "age": 27,
-        "height": 1.58,
-        "activo": true,
-        "date": "12-01-2022"
-    },
-    {
-        "id": 3,
-        "name": "Jose",
-        "lastName": "Perez",
-        "email": "joseP@gmail.com",
-        "age": 26,
-        "height": 1.65,
-        "activo": true,
-        "date": "30-01-2022"
-    }
+{
+"id": 1,
+"name": "Juan",
+"last_name": "",
+"email": "juanR@gmail.com",
+"age": 26,
+"height": 1.73,
+"active": false,
+"date": "03-01-2022"
+},
+{
+"id": 2,
+"name": "Maria",
+"last_name": "",
+"email": "mariaL@gmail.com",
+"age": 27,
+"height": 1.58,
+"active": false,
+"date": "12-01-2022"
+},
+{
+"id": 3,
+"name": "Jose",
+"last_name": "",
+"email": "joseP@gmail.com",
+"age": 26,
+"height": 1.65,
+"active": false,
+"date": "30-01-2022"
+},
+{
+"id": 5,
+"name": "Carlos",
+"last_name": "Rodriguez",
+"email": "carlos@gmail.com",
+"age": 45,
+"height": 1.78,
+"active": true,
+"date": "23-04-2022"
+},
+{
+"id": 7,
+"name": "Carlos",
+"last_name": "Rodriguez",
+"email": "carlos@gmail.com",
+"age": 45,
+"height": 1.78,
+"active": true,
+"date": "23-04-2022"
+},
+{
+"id": 8,
+"name": "Lionel",
+"last_name": "Messi",
+"email": "lio@gmail.com",
+"age": 35,
+"height": 1.7,
+"active": true,
+"date": "23-06-2022"
+}
 ]
