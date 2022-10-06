@@ -1,13 +1,13 @@
 [
 {
 "id": 1,
-"name": "Juan",
-"last_name": "",
-"email": "juanR@gmail.com",
-"age": 26,
-"height": 1.73,
-"active": false,
-"date": "03-01-2022"
+"name": "Lionel",
+"last_name": "Scaloni",
+"email": "scaloneta@gmail.com",
+"age": 43,
+"height": 1.78,
+"active": true,
+"date": "30-06-2022"
 },
 {
 "id": 2,

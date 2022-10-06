@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/internal/users"
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/pkg/web"
@@ -70,4 +71,44 @@ func (c *User) GetAll(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
 	return
+}
+
+func (c *User) Update(ctx *gin.Context) {
+	token := ctx.GetHeader("token")
+	if token != os.Getenv("TOKEN") {
+		ctx.JSON(http.StatusUnauthorized, web.NewResponse(401, nil, "No tiene permisos para realizar la petición solicitada"))
+		return
+	}
+
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(400, web.NewResponse(400, nil, "ID invalido"))
+		return
+	}
+
+	var req request
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(400, nil, err.Error()))
+		return
+	}
+
+	if req.Name == "" {
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(400, nil, "Nombre de usuario no puede ser nulo"))
+		return
+	}
+
+	if req.LastName == "" {
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(400, nil, "Apellido de usuario no puede ser nulo"))
+		return
+	}
+
+	// !- Y asi para cada campo xd
+
+	u, err := c.service.Update(int(id), req.Name, req.LastName, req.Email, req.Age, req.Height, req.Active, req.Date)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, web.NewResponse(500, nil, err.Error()))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
 }

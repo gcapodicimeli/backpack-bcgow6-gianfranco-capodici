@@ -1,6 +1,10 @@
 package users
 
-import "github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/pkg/store"
+import (
+	"fmt"
+
+	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/pkg/store"
+)
 
 type User struct {
 	Id       int     `json:"id"`
@@ -20,6 +24,7 @@ type Repository interface {
 	GetAll() ([]User, error)
 	Create(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
 	LastID() (int, error)
+	Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
 }
 
 type repository struct {
@@ -61,4 +66,24 @@ func (r *repository) LastID() (int, error) {
 	}
 
 	return us[len(us)-1].Id, nil
+}
+
+func (r *repository) Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (user User, err error) {
+	user = User{Name: name, LastName: lastName, Email: email, Age: age, Height: heigth, Active: active, Date: date}
+	r.db.Read(&us)
+	for i := range us {
+		if us[i].Id == id {
+			user.Id = id
+			us[i] = user
+			if err := r.db.Write(us); err != nil {
+				return User{}, err
+			}
+
+			return
+		}
+	}
+
+	user = User{}
+	err = fmt.Errorf("ID %d no encontrado", id)
+	return
 }

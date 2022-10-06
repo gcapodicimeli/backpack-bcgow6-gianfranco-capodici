@@ -3,6 +3,7 @@ package users
 type Service interface {
 	GetAll() ([]User, error)
 	Create(name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
+	Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
 }
 
 type service struct {
@@ -36,5 +37,13 @@ func (s *service) Create(name, lastName, email string, age int, heigth float64, 
 		return
 	}
 
+	return
+}
+
+func (s *service) Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (user User, err error) {
+	user, err = s.repository.Update(id, name, lastName, email, age, heigth, active, date)
+	if err != nil {
+		return
+	}
 	return
 }
