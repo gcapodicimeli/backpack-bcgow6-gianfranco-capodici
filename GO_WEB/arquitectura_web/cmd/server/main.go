@@ -1,7 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/cmd/server/handler"
+	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/docs"
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/internal/users"
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/pkg/store"
 	"github.com/gin-gonic/gin"
@@ -37,7 +40,8 @@ func main() {
 
 	router := gin.Default()
 
-	do.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	docs.SwaggerInfo.Host = os.Getenv("HOST")
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	ur := router.Group("/users")
 	ur.POST("/", u.Store)
