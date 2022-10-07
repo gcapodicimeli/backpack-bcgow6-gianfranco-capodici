@@ -31,7 +31,7 @@ func NewUser(service users.Service) *User {
 	}
 }
 
-func (c *User) Create(ctx *gin.Context) {
+func (c *User) Store(ctx *gin.Context) {
 	token := ctx.GetHeader("token")
 	if token != os.Getenv("TOKEN") {
 		ctx.JSON(http.StatusUnauthorized, web.NewResponse(401, nil, "No tiene permisos para realizar la petición solicitada"))
@@ -44,13 +44,23 @@ func (c *User) Create(ctx *gin.Context) {
 		return
 	}
 
-	u, err := c.service.Create(req.Name, req.LastName, req.Email, req.Age, req.Height, req.Active, req.Date)
+	u, err := c.service.Store(req.Name, req.LastName, req.Email, req.Age, req.Height, req.Active, req.Date)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, web.NewResponse(500, nil, err.Error()))
 	}
 	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
 }
 
+// Listusers godoc
+// Summary  Showlist users
+// @Tag Users
+// Produce json
+// @Param token header string  		  true "token"
+// @Success 200 {object} web.Response "List users"
+// @Failure 401 {object} web.Response "Unauthorized"
+// @Failure 404 {object} web.Response "Not found users"
+// @Failure 500 {object} web.Response "Internal server error"
+// @Router /users [GET]
 func (c *User) GetAll(ctx *gin.Context) {
 	token := ctx.GetHeader("token")
 	if token != os.Getenv("TOKEN") {

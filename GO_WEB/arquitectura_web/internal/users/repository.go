@@ -22,7 +22,7 @@ var lastID int
 
 type Repository interface {
 	GetAll() ([]User, error)
-	Create(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
+	Store(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
 	LastID() (int, error)
 	Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
 }
@@ -43,7 +43,7 @@ func (r *repository) GetAll() ([]User, error) {
 	return us, nil
 }
 
-func (r *repository) Create(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (u User, err error) {
+func (r *repository) Store(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (u User, err error) {
 	r.db.Read(&us)
 	u = User{id, name, lastName, email, age, heigth, active, date}
 	us = append(us, u)

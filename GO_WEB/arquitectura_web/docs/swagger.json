@@ -1,0 +1,74 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a simple API development by Gianfranco Capodici.",
+        "title": "Arquitectura del bootcamp - API",
+        "termsOfService": "https://developers.mercadolibre.com.ar/es_ar/terminos-y-condiciones",
+        "contact": {
+            "name": "Gianfranco Capodici",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/users": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List users",
+                        "schema": {
+                            "$ref": "#/definitions/web.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found users",
+                        "schema": {
+                            "$ref": "#/definitions/web.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "web.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {},
+                "error": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
