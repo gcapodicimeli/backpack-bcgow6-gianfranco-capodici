@@ -116,9 +116,30 @@ func (c *User) Update(ctx *gin.Context) {
 
 	u, err := c.service.Update(int(id), req.Name, req.LastName, req.Email, req.Age, req.Height, req.Active, req.Date)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, web.NewResponse(500, nil, err.Error()))
+		ctx.JSON(http.StatusNotFound, web.NewResponse(http.StatusNotFound, nil, err.Error()))
 		return
 	}
 
 	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
+}
+
+func (c *User) Delete(ctx *gin.Context) {
+	token := ctx.GetHeader("token")
+	if token != os.Getenv("TOKEN") {
+		ctx.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "No tiene permisos para realizar la petición solicitada"))
+	}
+
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(http.StatusBadRequest, nil, "ID invalido"))
+		return
+	}
+
+	err = c.service.Delete(int(id))
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, web.NewResponse(http.StatusNotFound, nil, "Id no encontrado"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, web.NewResponse(200, "Usuario eliminado correctamente", ""))
 }

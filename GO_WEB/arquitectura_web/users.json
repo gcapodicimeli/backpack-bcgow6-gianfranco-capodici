@@ -40,16 +40,6 @@
 "date": "23-04-2022"
 },
 {
-"id": 7,
-"name": "Carlos",
-"last_name": "Rodriguez",
-"email": "carlos@gmail.com",
-"age": 45,
-"height": 1.78,
-"active": true,
-"date": "23-04-2022"
-},
-{
 "id": 8,
 "name": "Lionel",
 "last_name": "Messi",

@@ -47,7 +47,7 @@ func main() {
 	ur.POST("/", u.Store)
 	ur.GET("/", u.GetAll)
 	ur.PUT("/:id", u.Update)
-	//ur.DELETE("/", u.Delete)
+	ur.DELETE("/:id", u.Delete)
 
 	router.Run()
 }
