@@ -13,12 +13,12 @@ import (
 type request struct {
 	Id       int     `json:"id"`
 	Name     string  `json:"name" binding:"required"`
-	LastName string  `json:"last_name" binding:"required"`
-	Email    string  `json:"email" binding:"required"`
-	Age      int     `json:"age" binding:"required"`
-	Height   float64 `json:"height" binding:"required"`
-	Active   bool    `json:"active" binding:"required"`
-	Date     string  `json:"date" binding:"required"`
+	LastName string  `json:"last_name"`
+	Email    string  `json:"email"`
+	Age      int     `json:"age"`
+	Height   float64 `json:"height"`
+	Active   bool    `json:"active"`
+	Date     string  `json:"date"`
 }
 
 type User struct {
@@ -40,13 +40,14 @@ func (c *User) Store(ctx *gin.Context) {
 
 	var req request
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, web.NewResponse(500, nil, err.Error()))
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(400, nil, err.Error()))
 		return
 	}
 
 	u, err := c.service.Store(req.Name, req.LastName, req.Email, req.Age, req.Height, req.Active, req.Date)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, web.NewResponse(500, nil, err.Error()))
+		ctx.JSON(http.StatusNotFound, web.NewResponse(404, nil, err.Error()))
+		return
 	}
 	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
 }
@@ -142,4 +143,38 @@ func (c *User) Delete(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, web.NewResponse(200, "Usuario eliminado correctamente", ""))
+}
+
+func (c *User) UpdateName(ctx *gin.Context) {
+	token := ctx.GetHeader("token")
+	if token != os.Getenv("TOKEN") {
+		ctx.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "No tiene permisos para realizar la petición solicitada"))
+		return
+	}
+
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(http.StatusBadRequest, nil, "ID invalido"))
+		return
+	}
+
+	var req request
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(400, nil, err.Error()))
+		return
+	}
+
+	if req.Name == "" {
+		ctx.JSON(http.StatusBadRequest, web.NewResponse(400, nil, "Nombre de usuario no puede ser nulo"))
+		return
+	}
+
+	u, err := c.service.UpdateName(int(id), req.Name)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, web.NewResponse(404, nil, err.Error()))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
+	return
 }

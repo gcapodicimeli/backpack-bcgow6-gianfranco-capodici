@@ -48,6 +48,7 @@ func main() {
 	ur.GET("/", u.GetAll)
 	ur.PUT("/:id", u.Update)
 	ur.DELETE("/:id", u.Delete)
+	ur.PATCH("/:id", u.UpdateName)
 
 	router.Run()
 }
