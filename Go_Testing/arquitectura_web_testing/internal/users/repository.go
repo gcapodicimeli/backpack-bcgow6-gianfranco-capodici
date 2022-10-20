@@ -3,7 +3,7 @@ package users
 import (
 	"fmt"
 
-	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web/pkg/store"
+	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web_testing/pkg/store"
 )
 
 type User struct {
