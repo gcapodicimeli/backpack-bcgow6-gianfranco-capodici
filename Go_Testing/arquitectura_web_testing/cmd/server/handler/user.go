@@ -106,7 +106,6 @@ func (c *User) GetAll(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
-	return
 }
 
 // Update user godoc
@@ -238,5 +237,4 @@ func (c *User) UpdateName(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, web.NewResponse(200, u, ""))
-	return
 }

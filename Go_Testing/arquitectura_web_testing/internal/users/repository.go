@@ -18,7 +18,8 @@ type User struct {
 }
 
 var us []User
-var lastID int
+
+// var lastID int
 
 type Repository interface {
 	GetAll() ([]User, error)
@@ -41,12 +42,18 @@ func NewRepository(db store.Store) Repository {
 
 func (r *repository) GetAll() ([]User, error) {
 	var us []User
-	r.db.Read(&us)
+	err := r.db.Read(&us)
+	if err != nil {
+		return us, err
+	}
 	return us, nil
 }
 
 func (r *repository) Store(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (u User, err error) {
-	r.db.Read(&us)
+	err = r.db.Read(&us)
+	if err != nil {
+		return
+	}
 	u = User{id, name, lastName, email, age, heigth, active, date}
 	us = append(us, u)
 
@@ -54,7 +61,7 @@ func (r *repository) Store(id int, name, lastName, email string, age int, heigth
 		return User{}, err
 	}
 
-	lastID = u.Id
+	// lastID = u.Id
 	return
 }
 
@@ -72,7 +79,10 @@ func (r *repository) LastID() (int, error) {
 
 func (r *repository) Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (user User, err error) {
 	user = User{Name: name, LastName: lastName, Email: email, Age: age, Height: heigth, Active: active, Date: date}
-	r.db.Read(&us)
+	err = r.db.Read(&us)
+	if err != nil {
+		return
+	}
 	for i := range us {
 		if us[i].Id == id {
 			user.Id = id
@@ -91,11 +101,17 @@ func (r *repository) Update(id int, name, lastName, email string, age int, heigt
 }
 
 func (r *repository) Delete(id int) (err error) {
-	r.db.Read(&us)
+	err = r.db.Read(&us)
+	if err != nil {
+		return
+	}
 	for i := range us {
 		if us[i].Id == id {
 			us = append(us[:i], us[i+1:]...)
-			r.db.Write(us)
+			err = r.db.Write(us)
+			if err != nil {
+				return
+			}
 			return
 		}
 	}
@@ -105,11 +121,17 @@ func (r *repository) Delete(id int) (err error) {
 }
 
 func (r *repository) UpdateName(id int, name string) (u User, err error) {
-	r.db.Read(&us)
+	err = r.db.Read(&us)
+	if err != nil {
+		return
+	}
 	for i := range us {
 		if us[i].Id == id {
 			us[i].Name = name
-			r.db.Write(us)
+			err = r.db.Write(us)
+			if err != nil {
+				return
+			}
 			u = us[i]
 			return
 		}

@@ -50,5 +50,8 @@ func main() {
 	ur.DELETE("/:id", u.Delete)
 	ur.PATCH("/:id", u.UpdateName)
 
-	router.Run()
+	err = router.Run()
+	if err != nil {
+		panic(err)
+	}
 }

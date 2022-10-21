@@ -75,11 +75,12 @@ func TestGetAll(t *testing.T) {
 	repo := NewRepository(myStubStore)
 
 	// Act
-	result, err := repo.GetAll()
-	resultUpdated, err := repo.UpdateName(userToUpdateMock.Id, userExpected.Name)
+	result, err1 := repo.GetAll()
+	resultUpdated, err2 := repo.UpdateName(userToUpdateMock.Id, userExpected.Name)
 
 	// Assert
-	assert.Nil(t, err)
+	assert.Nil(t, err1)
+	assert.Nil(t, err2)
 	assert.Equal(t, us, result, "Deben ser iguales")
 	assert.True(t, myStubStore.ReadWasCalled)
 	assert.Equal(t, userExpected, resultUpdated, "Deben ser iguales")
