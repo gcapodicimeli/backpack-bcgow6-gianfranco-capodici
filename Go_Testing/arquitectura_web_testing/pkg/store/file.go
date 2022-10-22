@@ -17,20 +17,20 @@ const (
 	MonoType Type = "mongo" //Es un ejemplo si tuvieramos otra conexion a la bd
 )
 
-type fileStore struct {
+type FileStore struct {
 	FilePath string
 }
 
 func New(store Type, fileName string) Store {
 	switch store {
 	case FileType:
-		return &fileStore{fileName}
+		return &FileStore{FilePath: fileName}
 	default:
 		return nil
 	}
 }
 
-func (fs *fileStore) Write(data interface{}) error {
+func (fs *FileStore) Write(data interface{}) error {
 	fileData, err := json.MarshalIndent(data, "", "")
 	if err != nil {
 		return err
@@ -38,7 +38,7 @@ func (fs *fileStore) Write(data interface{}) error {
 	return os.WriteFile(fs.FilePath, fileData, 0644)
 }
 
-func (fs *fileStore) Read(data interface{}) error {
+func (fs *FileStore) Read(data interface{}) error {
 	fileData, err := os.ReadFile(fs.FilePath)
 	if err != nil {
 		return err

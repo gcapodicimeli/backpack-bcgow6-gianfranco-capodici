@@ -3,31 +3,19 @@ package users
 import (
 	"fmt"
 
+	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web_testing/internal/domain"
 	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web_testing/pkg/store"
 )
 
-type User struct {
-	Id       int     `json:"id"`
-	Name     string  `json:"name" binding:"required"`
-	LastName string  `json:"last_name" binding:"required"`
-	Email    string  `json:"email" binding:"required"`
-	Age      int     `json:"age" binding:"required"`
-	Height   float64 `json:"height" binding:"required"`
-	Active   bool    `json:"active" binding:"required"`
-	Date     string  `json:"date" binding:"required"`
-}
-
-var us []User
-
-// var lastID int
+var us []domain.User
 
 type Repository interface {
-	GetAll() ([]User, error)
-	Store(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
+	GetAll() ([]domain.User, error)
+	Store(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (domain.User, error)
 	LastID() (int, error)
-	Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (User, error)
+	Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (domain.User, error)
 	Delete(id int) error
-	UpdateName(id int, name string) (User, error)
+	UpdateName(id int, name string) (domain.User, error)
 }
 
 type repository struct {
@@ -40,8 +28,8 @@ func NewRepository(db store.Store) Repository {
 	}
 }
 
-func (r *repository) GetAll() ([]User, error) {
-	var us []User
+func (r *repository) GetAll() ([]domain.User, error) {
+	var us []domain.User
 	err := r.db.Read(&us)
 	if err != nil {
 		return us, err
@@ -49,16 +37,16 @@ func (r *repository) GetAll() ([]User, error) {
 	return us, nil
 }
 
-func (r *repository) Store(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (u User, err error) {
+func (r *repository) Store(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (u domain.User, err error) {
 	err = r.db.Read(&us)
 	if err != nil {
 		return
 	}
-	u = User{id, name, lastName, email, age, heigth, active, date}
+	u = domain.User{Id: id, Name: name, LastName: lastName, Email: email, Age: age, Height: heigth, Active: active, Date: date}
 	us = append(us, u)
 
 	if err := r.db.Write(us); err != nil {
-		return User{}, err
+		return domain.User{}, err
 	}
 
 	// lastID = u.Id
@@ -66,7 +54,7 @@ func (r *repository) Store(id int, name, lastName, email string, age int, heigth
 }
 
 func (r *repository) LastID() (int, error) {
-	var us []User
+	var us []domain.User
 	if err := r.db.Read(&us); err != nil {
 		return 0, err
 	}
@@ -77,8 +65,8 @@ func (r *repository) LastID() (int, error) {
 	return us[len(us)-1].Id, nil
 }
 
-func (r *repository) Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (user User, err error) {
-	user = User{Name: name, LastName: lastName, Email: email, Age: age, Height: heigth, Active: active, Date: date}
+func (r *repository) Update(id int, name, lastName, email string, age int, heigth float64, active bool, date string) (user domain.User, err error) {
+	user = domain.User{Name: name, LastName: lastName, Email: email, Age: age, Height: heigth, Active: active, Date: date}
 	err = r.db.Read(&us)
 	if err != nil {
 		return
@@ -88,14 +76,14 @@ func (r *repository) Update(id int, name, lastName, email string, age int, heigt
 			user.Id = id
 			us[i] = user
 			if err := r.db.Write(us); err != nil {
-				return User{}, err
+				return domain.User{}, err
 			}
 
 			return
 		}
 	}
 
-	user = User{}
+	user = domain.User{}
 	err = fmt.Errorf("ID %d no encontrado", id)
 	return
 }
@@ -120,7 +108,7 @@ func (r *repository) Delete(id int) (err error) {
 	return
 }
 
-func (r *repository) UpdateName(id int, name string) (u User, err error) {
+func (r *repository) UpdateName(id int, name string) (u domain.User, err error) {
 	err = r.db.Read(&us)
 	if err != nil {
 		return

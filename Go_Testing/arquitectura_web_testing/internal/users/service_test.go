@@ -1,16 +1,16 @@
 package users
 
 import (
-	"encoding/json"
+	"errors"
 	"testing"
 
-	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web_testing/pkg/store"
+	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web_testing/internal/domain"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestServiceIntegrationGetAll(t *testing.T) {
 	// Arrange
-	database := []User{
+	database := []domain.User{
 		{Id: 1,
 			Name:     "Juan",
 			LastName: "Perez",
@@ -31,18 +31,11 @@ func TestServiceIntegrationGetAll(t *testing.T) {
 		},
 	}
 
-	db, _ := json.Marshal(database)
-	mockStorage := store.Mock{
-		Data:  db,
-		Error: nil,
+	mockStorage := MockStorage{
+		dataMock: database,
 	}
 
-	stubStore := store.FileStore{
-		FilePath: "",
-		Mock:     &mockStorage,
-	}
-
-	repository := NewRepository(&stubStore)
+	repository := NewRepository(&mockStorage)
 	service := NewService(repository)
 
 	// Act
@@ -51,4 +44,24 @@ func TestServiceIntegrationGetAll(t *testing.T) {
 	// Assert
 	assert.Nil(t, err)
 	assert.Equal(t, database, result)
+}
+
+func TestServiceIntegrationGetAllFail(t *testing.T) {
+	// Arrange
+	expectedError := errors.New("Mock error :)")
+	mockStorage := MockStorage{
+		dataMock:   nil,
+		errOnWrite: nil,
+		errOnRead:  errors.New("Mock error :)"),
+	}
+
+	repository := NewRepository(&mockStorage)
+	service := NewService(repository)
+
+	// Act
+	result, err := service.GetAll()
+
+	// Assert
+	assert.EqualError(t, err, expectedError.Error())
+	assert.Nil(t, result)
 }

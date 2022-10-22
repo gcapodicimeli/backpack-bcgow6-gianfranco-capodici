@@ -3,18 +3,19 @@ package users
 import (
 	"testing"
 
+	"github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web_testing/internal/domain"
 	"github.com/stretchr/testify/assert"
 )
 
 type StubStore struct {
-	Data          []User
-	Us            User
+	Data          []domain.User
+	Us            domain.User
 	ReadWasCalled bool
 }
 
 func (fs *StubStore) Read(data interface{}) error {
 	fs.ReadWasCalled = true
-	dataStub := data.(*[]User)
+	dataStub := data.(*[]domain.User)
 	*dataStub = fs.Data
 	return nil
 }
@@ -27,7 +28,7 @@ func (fs *StubStore) Write(data interface{}) error {
 
 func TestGetAll(t *testing.T) {
 	// Arrange
-	us := []User{ //* Ej 1 con Stub
+	us := []domain.User{ //* Ej 1 con Stub
 		{Id: 1,
 			Name:     "Juan",
 			LastName: "Perez",
@@ -49,7 +50,7 @@ func TestGetAll(t *testing.T) {
 	}
 
 	// * Ej 2 con Mock
-	userToUpdateMock := User{
+	userToUpdateMock := domain.User{
 		Id:       1,
 		Name:     "Before Update",
 		LastName: "Perez",
@@ -60,7 +61,7 @@ func TestGetAll(t *testing.T) {
 		Date:     "02-02-2022",
 	}
 
-	userExpected := User{
+	userExpected := domain.User{
 		Id:       1,
 		Name:     "After Update",
 		LastName: "Perez",
