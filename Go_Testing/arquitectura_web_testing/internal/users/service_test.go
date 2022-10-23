@@ -165,3 +165,101 @@ func TestServiceIntegrationStoreFail(t *testing.T) {
 	assert.EqualError(t, err, expectedError.Error())
 	assert.Empty(t, result)
 }
+
+// * Test de los ejercicios
+// ! - Faltan los Fail
+// func TestUpdate(t *testing.T) {
+// 	// Arrange
+// 	initialDatabase := []domain.User{
+// 		{
+// 			Id:       1,
+// 			Name:     "Franco",
+// 			LastName: "Rodriguez",
+// 			Email:    "franco@gmail.com",
+// 			Age:      23,
+// 			Height:   1.76,
+// 			Active:   true,
+// 			Date:     "0708-2022",
+// 		},
+// 	}
+
+// 	mockStorage := MockStorage{
+// 		dataMock:   initialDatabase,
+// 		errOnRead:  nil,
+// 		errOnWrite: nil,
+// 	}
+// 	repository := NewRepository(&mockStorage)
+// 	service := NewService(repository)
+
+// 	// Act
+// 	expectedUpdate := domain.User{
+// 		Id:       1,
+// 		Name:     "Rodrigo",
+// 		LastName: "Gil",
+// 		Email:    "rodrigo@gmail",
+// 		Age:      34,
+// 		Height:   1.87,
+// 		Active:   true,
+// 		Date:     "31-08-1998",
+// 	}
+// 	result, err := service.Update(expectedUpdate.Id, expectedUpdate.Name, expectedUpdate.LastName, expectedUpdate.Email, expectedUpdate.Age, expectedUpdate.Height, expectedUpdate.Active, expectedUpdate.Date)
+
+// 	// Assert
+// 	assert.Nil(t, err)
+// 	assert.Equal(t, expectedUpdate, result)
+// 	assert.True(t, mockStorage.readInvoked)
+// }
+
+func TestDelete(t *testing.T) {
+	// Arrange
+	initiaDatabase := []domain.User{
+		{
+			Id:       1,
+			Name:     "Franco",
+			LastName: "Rodriguez",
+			Email:    "franco@gmail.com",
+			Age:      23,
+			Height:   1.76,
+			Active:   true,
+			Date:     "0708-2022",
+		},
+		{
+			Id:       2,
+			Name:     "Juan",
+			LastName: "Rodriguez",
+			Email:    "juan@gmail.com",
+			Age:      23,
+			Height:   1.76,
+			Active:   true,
+			Date:     "0708-2022",
+		},
+	}
+
+	expectedDatabase := []domain.User{
+		{
+			Id:       1,
+			Name:     "Franco",
+			LastName: "Rodriguez",
+			Email:    "franco@gmail.com",
+			Age:      23,
+			Height:   1.76,
+			Active:   true,
+			Date:     "0708-2022",
+		},
+	}
+
+	mockStorage := MockStorage{
+		dataMock:   initiaDatabase,
+		errOnWrite: nil,
+		errOnRead:  nil,
+	}
+	repository := NewRepository(&mockStorage)
+	service := NewService(repository)
+
+	// Act
+	err := service.Delete(1)
+
+	// Assert
+	assert.Nil(t, err)
+	assert.Equal(t, expectedDatabase, mockStorage.dataMock)
+}

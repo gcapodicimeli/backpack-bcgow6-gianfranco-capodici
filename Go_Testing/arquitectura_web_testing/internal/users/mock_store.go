@@ -3,9 +3,10 @@ package users
 import "github.com/gcapodicimeli/backpack-bcgow6-gianfranco-capodici/arquitectura_web_testing/internal/domain"
 
 type MockStorage struct {
-	dataMock   []domain.User
-	errOnWrite error
-	errOnRead  error
+	dataMock    []domain.User
+	errOnWrite  error
+	errOnRead   error
+	readInvoked bool
 }
 
 func (m *MockStorage) Read(data interface{}) (err error) {
@@ -13,6 +14,7 @@ func (m *MockStorage) Read(data interface{}) (err error) {
 		return m.errOnRead
 	}
 
+	m.readInvoked = true
 	castedData := data.(*[]domain.User)
 	*castedData = m.dataMock
 	return nil
