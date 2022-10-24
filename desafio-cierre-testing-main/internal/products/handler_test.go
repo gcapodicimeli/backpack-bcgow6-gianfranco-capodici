@@ -59,3 +59,27 @@ func TestGetAllProducts(t *testing.T) {
 	assert.Equal(t, initialDatabase, resp)
 	assert.Equal(t, len(initialDatabase), len(resp))
 }
+
+func TestGetAllProductsFail_StatusBadRequest(t *testing.T) {
+	// Arrange
+	r := createServer()
+	req, rr := createRequestTest(http.MethodGet, "/products?seller_id=", "")
+
+	// Act
+	r.ServeHTTP(rr, req)
+
+	// Assert
+	assert.Equal(t, http.StatusBadRequest, rr.Code)
+}
+
+func TestGetAllProductsFail_StatusInternalServer(t *testing.T) {
+	// Arrange
+	r := createServer()
+	req, rr := createRequestTest(http.MethodGet, "/products?seller_id=#", "")
+
+	// Act
+	r.ServeHTTP(rr, req)
+
+	// Assert
+	assert.Equal(t, http.StatusInternalServerError, rr.Code)
+}

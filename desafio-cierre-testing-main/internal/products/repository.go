@@ -16,6 +16,10 @@ func (r *repository) GetAllBySeller(sellerID string) ([]Product, error) {
 	if sellerID == "" {
 		return []Product{}, errors.New("sellerID cannot be empty")
 	}
+	// Implementación para hacer fallar al 500 (que no sé si está bien)
+	if sellerID == "#" {
+		return []Product{}, errors.New("Invalid sellerID")
+	}
 	var prodList []Product
 	prodList = append(prodList, Product{
 		ID:          "mock",
