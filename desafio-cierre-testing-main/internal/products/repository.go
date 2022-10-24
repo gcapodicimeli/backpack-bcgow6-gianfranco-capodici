@@ -1,5 +1,7 @@
 package products
 
+import "errors"
+
 type Repository interface {
 	GetAllBySeller(sellerID string) ([]Product, error)
 }
@@ -11,6 +13,9 @@ func NewRepository() Repository {
 }
 
 func (r *repository) GetAllBySeller(sellerID string) ([]Product, error) {
+	if sellerID == "" {
+		return []Product{}, errors.New("sellerID cannot be empty")
+	}
 	var prodList []Product
 	prodList = append(prodList, Product{
 		ID:          "mock",

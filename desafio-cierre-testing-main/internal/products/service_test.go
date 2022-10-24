@@ -1,12 +1,14 @@
 package products
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetAllBySellerStub(t *testing.T) {
+// ?- Esto es test unitario o de integración?
+func TestGetAllBySeller(t *testing.T) {
 	// Arrange
 	sellerID := "mock"
 
@@ -28,4 +30,18 @@ func TestGetAllBySellerStub(t *testing.T) {
 	// Assert
 	assert.Nil(t, err)
 	assert.Equal(t, expectedProduct, result)
+}
+
+func TestGetAllBySellerFail(t *testing.T) {
+	// Arrange
+	sellerID := ""
+	expectedError := errors.New("sellerID cannot be empty")
+	repository := NewRepository()
+	service := NewService(repository)
+
+	// Act
+	_, err := service.GetAllBySeller(sellerID)
+
+	// Assert
+	assert.EqualError(t, expectedError, err.Error())
 }
