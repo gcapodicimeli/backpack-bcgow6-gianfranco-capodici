@@ -32,7 +32,7 @@ func TestServiceIntegrationGetAll(t *testing.T) {
 	}
 
 	mockStorage := MockStorage{
-		dataMock: database,
+		DataMock: database,
 	}
 
 	repository := NewRepository(&mockStorage)
@@ -50,9 +50,9 @@ func TestServiceIntegrationGetAllFail(t *testing.T) {
 	// Arrange
 	expectedError := errors.New("Mock error :)")
 	mockStorage := MockStorage{
-		dataMock:   nil,
-		errOnWrite: nil,
-		errOnRead:  errors.New("Mock error :)"),
+		DataMock:   nil,
+		ErrOnWrite: nil,
+		ErrOnRead:  errors.New("Mock error :)"),
 	}
 
 	repository := NewRepository(&mockStorage)
@@ -121,7 +121,7 @@ func TestServiceIntegrationStore(t *testing.T) {
 	}
 
 	mockStorage := MockStorage{
-		dataMock: initiaDatabase,
+		DataMock: initiaDatabase,
 	}
 
 	repository := NewRepository(&mockStorage)
@@ -143,16 +143,16 @@ func TestServiceIntegrationStore(t *testing.T) {
 	// Assert
 	assert.Nil(t, err)
 	assert.Equal(t, userCreated, result)
-	assert.Equal(t, expectedDatabase, mockStorage.dataMock)
+	assert.Equal(t, expectedDatabase, mockStorage.DataMock)
 }
 
 func TestServiceIntegrationStoreFail(t *testing.T) {
 	// Arrange
 	expectedError := errors.New("Error on write a user")
 	mockStorage := MockStorage{
-		dataMock:   nil,
-		errOnRead:  nil,
-		errOnWrite: errors.New("Error on write a user"),
+		DataMock:   nil,
+		ErrOnRead:  nil,
+		ErrOnWrite: errors.New("Error on write a user"),
 	}
 
 	repository := NewRepository(&mockStorage)
@@ -184,9 +184,9 @@ func TestUpdate(t *testing.T) {
 	}
 
 	mockStorage := MockStorage{
-		dataMock:   initialDatabase,
-		errOnRead:  nil,
-		errOnWrite: nil,
+		DataMock:   initialDatabase,
+		ErrOnRead:  nil,
+		ErrOnWrite: nil,
 	}
 	repository := NewRepository(&mockStorage)
 	service := NewService(repository)
@@ -249,9 +249,9 @@ func TestDelete(t *testing.T) {
 	// }
 
 	mockStorage := MockStorage{
-		dataMock:   initiaDatabase,
-		errOnWrite: nil,
-		errOnRead:  nil,
+		DataMock:   initiaDatabase,
+		ErrOnWrite: nil,
+		ErrOnRead:  nil,
 	}
 	repository := NewRepository(&mockStorage)
 	service := NewService(repository)
